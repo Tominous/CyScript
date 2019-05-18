@@ -43,14 +43,34 @@ var CyScript = (intialExport = {}) =>
 
 			if(getIncludes)
 			{
-				// Get all elements that utilise CyScript external includes
-				var relevantEls = document.querySelectorAll("include[cs-url]");
+				// Get all elements that utilise CyScript external includes (by literal url)
+				var relevantEls = document.querySelectorAll("include[cs-url-lit]");
 	
 				relevantEls.forEach((element) =>
 				{
 					// Send a request to get the included file
 					var request = new XMLHttpRequest();
-					request.open("GET", element.getAttribute("cs-url"));
+					request.open("GET", element.getAttribute("cs-url-lit"));
+					request.onreadystatechange = function ()
+					{
+						if(request.readyState === 4 && request.status === 200)
+						{
+							// Once we have the included file include it
+							element.innerHTML = request.responseText;
+							CyScript.render(false);
+						}
+					}
+					request.send();
+				});
+
+				// Get all elements that utilise CyScript external includes
+				var relevantEls = document.querySelectorAll("include[cs-url-var]");
+	
+				relevantEls.forEach((element) =>
+				{
+					// Send a request to get the included file
+					var request = new XMLHttpRequest();
+					request.open("GET", eval("CyScript.exports." + element.getAttribute("cs-url-var")));
 					request.onreadystatechange = function ()
 					{
 						if(request.readyState === 4 && request.status === 200)

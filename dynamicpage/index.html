@@ -4,7 +4,7 @@
 			<title cs-bind="page.title"></title>
 		</head>
 		<body>
-			<include cs-url="homepage.html"></include>
+			<include cs-url-var="page.includeURL"></include>
 		</body>
 
 		<script src="../CyScript.js"></script>
@@ -12,7 +12,8 @@
 		<script>
 			CyScript = CyScript({
 				page: {
-					title: "Hi"
+					title: "Hi",
+					includeURL: "homepage.html"
 				},
 				user: {
 					name: "John"
