@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CyScript: Dynamic Clock</title>
+	</head>
+	<body>
+		<h1>{[currentTime.hours]}:{[currentTime.mins]}</cyEl></h1>
+		<ul>
+			{( for country in countries )}
+				<li>{[country]}</li>
+			{( endfor )}
+		</ul>
+	</body>
+
+	<script>
+	var currentTime = {
+		hours: 12,
+		mins: 0
+	}
+	</script>
+
+	<script src="../CyScript.js"></script>
+</html>

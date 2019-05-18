@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+		<head>
+			<title cs-bind="page.title"></title>
+		</head>
+		<body>
+			<include cs-url="homepage.html"></include>
+		</body>
+
+		<script src="../CyScript.js"></script>
+
+		<script>
+			CyScript = CyScript({
+				page: {
+					title: "Hi"
+				},
+				user: {
+					name: "John"
+				}
+			});
+
+			CyScript.render();
+		</script>
+</html>
