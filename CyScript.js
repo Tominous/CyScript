@@ -15,7 +15,7 @@ var CyScript = (intialExport = {}) =>
 		{
 			obj[prop] = value;
 			
-			CyScript.render();
+			CyScript.render(document);
 
 			return obj[prop];
 		}
@@ -24,30 +24,32 @@ var CyScript = (intialExport = {}) =>
 	return {
 		exports: new Proxy(intialExport, csPrivateExports),
 
-		render: (getIncludes = true) =>
+		render: (doc = document, getIncludes = true) =>
 		{
 			// Get all elements that utilise CyScript value binding
-			var relevantEls = document.querySelectorAll("[cs-bind]");
+			var relevantEls = doc.querySelectorAll("[cs-bind]");
 
-			relevantEls.forEach((element) =>
+			for(var i = 0; i < relevantEls.length; i++)
 			{
+				var element = relevantEls[i];
 				if(element.nodeName === "INPUT")
 				{
 					element.value = eval("CyScript.exports." + element.getAttribute("cs-bind"));
 				}
 				else
 				{
-					element.innerText = eval("CyScript.exports." + element.getAttribute("cs-bind"));
+					element.innerHTML = eval("CyScript.exports." + element.getAttribute("cs-bind"));
 				}
-			});
+			};
 
 			if(getIncludes)
 			{
 				// Get all elements that utilise CyScript external includes (by literal url)
-				var relevantEls = document.querySelectorAll("include[cs-url-lit]");
+				var relevantEls = doc.querySelectorAll("include[cs-url-lit]");
 	
-				relevantEls.forEach((element) =>
+				for(var i = 0; i < relevantEls.length; i++)
 				{
+					var element = relevantEls[i];
 					// Send a request to get the included file
 					var request = new XMLHttpRequest();
 					request.open("GET", element.getAttribute("cs-url-lit"));
@@ -57,14 +59,14 @@ var CyScript = (intialExport = {}) =>
 						{
 							// Once we have the included file include it
 							element.innerHTML = request.responseText;
-							CyScript.render(false);
+							CyScript.render(document, false);
 						}
 					}
 					request.send();
-				});
+				};
 
 				// Get all elements that utilise CyScript external includes
-				var relevantEls = document.querySelectorAll("include[cs-url-var]");
+				var relevantEls = doc.querySelectorAll("include[cs-url-var]");
 	
 				relevantEls.forEach((element) =>
 				{
@@ -77,12 +79,38 @@ var CyScript = (intialExport = {}) =>
 						{
 							// Once we have the included file include it
 							element.innerHTML = request.responseText;
-							CyScript.render(false);
+							CyScript.render(document, false);
 						}
 					}
 					request.send();
 				});
 			}
+
+			// Get all elements that utilise CyScript for each
+			var relevantEls = doc.querySelectorAll("[cs-for]");
+
+			relevantEls.forEach((element) =>
+			{
+				var extract = element.getAttribute("cs-for").split(" in ");
+				
+				if(extract.length != 2)
+				{
+					console.warn("CyScript: Invalid for each value in element: ", element);
+				}
+				else
+				{
+					var list = eval("CyScript.exports." + extract[1]);
+					var originalHTML = element.innerHTML;
+					for(var i = 0; i < list.length; i++)
+					{
+						newdoc = new DOMParser().parseFromString(originalHTML, "text/xml");
+						CyScript.render(newdoc);
+						element.innerHTML = element.innerHTML + originalHTML;
+					}
+					element.innerHTML.repeat(eval("CyScript.exports." + extract[1]).length);
+					//eval("CyScript.exports." + element.getAttribute("cs-bind"));
+				}
+			});
 		}
 	};
 }
