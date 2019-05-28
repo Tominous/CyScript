@@ -21,7 +21,7 @@ The cs-bind attribute can be used on elements like so:
 <title cs-bind="page.title"></title>
 ```
 to bind them to a variable declared like so:
-```Javascript
+```HTML
 <script>
 CyScript = CyScript({
   page: {
@@ -35,7 +35,7 @@ CyScript.render(document);
 
 #### include element
 The include element will fill it's contents with the source of the given file. You can provide this file as the value of a give variable like so:
-```
+```HTML
 <include cs-url-var="page.includeURL"></include>
 <script>
 CyScript = CyScript({
@@ -48,7 +48,7 @@ CyScript.render(document);
 </script>
 ```
 Or as a literal url like so:
-```
+```HTML
 <include cs-url="otherpage.html"></include>
 ```
 With the advantage of the first example being that the include url can be easily changed simply by using `CyScript.exports.page.includeURL = 'otherotherpage.html';`, and the advantage of the second example being that it is much more compact and has slightly better performance.
