@@ -11,7 +11,7 @@ CyScript provides functionality for this through the cs-bind attribute and the e
 Object Oriented webpages are ones that are split into multiple files that can be reused in order to improve maintainability and debugging. The problem with this, is that once you have websites that are dynamically updating you start to get into spaghetti code where you are peforming Ajax Requests and getting stuff from the server and then replacing html - CyScript does all of this for you, and has abstracted it down into a single element, the include element. Very similar to the include function in languages such as PHP and C++, the include element takes a parameter "cs-url" and will load the contents of that source as it's contents.
 
 ## Installation
-CyScript is still under development, and is likely buggy, so you should not be using it in production. Should you wish to test it out, however, simply add `<script src="https://raw.githubusercontent.com/cyruscook/CyScript/master/CyScript.js"></script>` to your page, and then check the [Dynamic Page Example](https://github.com/cyruscook/CyScript/tree/master/dynamicpage) to see how to implement it.
+CyScript is still under development, and is likely buggy, so you should not be using it in production. Should you wish to test it out, however, simply add `<script src="https://cdn.jsdelivr.net/gh/cyruscook/CyScript@master/CyScript.js"></script>` to your page, and then check the [Dynamic Page Example](https://github.com/cyruscook/CyScript/tree/master/dynamicpage) to see how to implement it.
 
 ## Usage
 
