@@ -108,7 +108,7 @@ var CyScript = (intialExport = {}) =>
 						element.innerHTML = element.innerHTML + originalHTML;
 					}
 					element.innerHTML.repeat(eval("CyScript.exports." + extract[1]).length);
-					//eval("CyScript.exports." + element.getAttribute("cs-bind"));
+					eval("CyScript.exports." + element.getAttribute("cs-bind"));
 				}
 			});
 		}
